@@ -1,0 +1,4284 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#05030a">
+
+<title>مملكة نورث | NORTH</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Cinzel:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+   NORTH — THE ROYAL KINGDOM
+========================================================= */
+
+:root{
+    --black:#030207;
+    --black2:#07050c;
+    --black3:#0b0712;
+
+    --purple:#241034;
+    --purple2:#3d185b;
+    --purple3:#71429a;
+
+    --silver:#eeeaf2;
+    --silver2:#b8b2bf;
+    --silver3:#77717f;
+
+    --gold:#d7b66a;
+    --red:#a93449;
+
+    --border:rgba(235,231,240,.13);
+    --border2:rgba(235,231,240,.22);
+
+    --ease:cubic-bezier(.2,.8,.2,1);
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+    background:var(--black);
+}
+
+body{
+    min-height:100vh;
+    overflow-x:hidden;
+
+    color:var(--silver);
+
+    font-family:"Cairo",sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(90,42,123,.13),
+            transparent 35%
+        ),
+        #05030a;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button{
+    font-family:inherit;
+}
+
+::selection{
+    background:#633b7f;
+    color:white;
+}
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar{
+    width:7px;
+}
+
+::-webkit-scrollbar-track{
+    background:#020106;
+}
+
+::-webkit-scrollbar-thumb{
+    background:linear-gradient(
+        #72448f,
+        #24112f
+    );
+    border-radius:20px;
+}
+
+/* =========================================================
+   MAIN BACKGROUND
+========================================================= */
+
+.page-bg{
+    position:fixed;
+    inset:0;
+    z-index:-30;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(2,1,5,.50),
+            rgba(7,3,13,.72) 42%,
+            rgba(3,2,7,.97) 100%
+        ),
+        url("https://i.ibb.co/prQMyj7S/IMG-20260909-WA0026-1.jpg")
+        center center / cover no-repeat;
+
+    transform:scale(1.05);
+
+    will-change:transform;
+}
+
+.page-bg::before{
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 30%,
+            transparent 0%,
+            rgba(5,2,10,.25) 45%,
+            rgba(2,1,5,.9) 100%
+        );
+}
+
+.page-bg::after{
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(20,4,35,.12),
+            transparent 35%,
+            transparent 65%,
+            rgba(20,4,35,.16)
+        );
+}
+
+/* =========================================================
+   AMBIENT PURPLE LIGHT
+========================================================= */
+
+.ambient{
+    position:fixed;
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:-10;
+
+    overflow:hidden;
+}
+
+.ambient::before,
+.ambient::after{
+    content:"";
+
+    position:absolute;
+
+    width:650px;
+    height:650px;
+
+    border-radius:50%;
+
+    filter:blur(120px);
+
+    opacity:.13;
+}
+
+.ambient::before{
+    top:-300px;
+    right:-200px;
+
+    background:#713e99;
+
+    animation:
+        ambientOne 14s
+        ease-in-out
+        infinite alternate;
+}
+
+.ambient::after{
+    left:-250px;
+    bottom:-300px;
+
+    background:#35115d;
+
+    animation:
+        ambientTwo 18s
+        ease-in-out
+        infinite alternate;
+}
+
+@keyframes ambientOne{
+    from{
+        transform:translate(0,0);
+    }
+    to{
+        transform:translate(-130px,140px);
+    }
+}
+
+@keyframes ambientTwo{
+    from{
+        transform:translate(0,0);
+    }
+    to{
+        transform:translate(150px,-120px);
+    }
+}
+
+/* =========================================================
+   CANVAS
+========================================================= */
+
+#snowCanvas,
+#particleCanvas{
+    position:fixed;
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    pointer-events:none;
+}
+
+#particleCanvas{
+    z-index:5;
+    opacity:.42;
+}
+
+#snowCanvas{
+    z-index:50;
+}
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.intro{
+    position:fixed;
+    inset:0;
+
+    z-index:999;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(71,34,97,.16),
+            transparent 42%
+        ),
+        #020106;
+
+    transition:
+        opacity 1.1s ease,
+        visibility 1.1s ease;
+}
+
+.intro.hide{
+    opacity:0;
+    visibility:hidden;
+}
+
+.intro-content{
+    text-align:center;
+
+    animation:
+        introAppear 1.5s
+        cubic-bezier(.2,.8,.2,1)
+        forwards;
+}
+
+.intro-emblem{
+    width:112px;
+    height:112px;
+
+    margin:auto auto 27px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    position:relative;
+
+    border:1px solid rgba(238,234,242,.35);
+    border-radius:50%;
+
+    font-family:"Cinzel",serif;
+    font-size:43px;
+
+    box-shadow:
+        0 0 0 10px rgba(255,255,255,.012),
+        0 0 80px rgba(105,53,143,.2);
+}
+
+.intro-emblem::before{
+    content:"";
+
+    position:absolute;
+    inset:-13px;
+
+    border:1px solid rgba(215,182,106,.18);
+    border-radius:50%;
+}
+
+.intro-emblem::after{
+    content:"";
+
+    position:absolute;
+    inset:12px;
+
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:50%;
+}
+
+.intro-title{
+    font-family:"Cinzel",serif;
+
+    font-size:clamp(42px,8vw,82px);
+
+    font-weight:500;
+
+    letter-spacing:8px;
+}
+
+.intro-ar{
+    margin-top:7px;
+
+    color:#aaa4b2;
+
+    font-size:12px;
+
+    letter-spacing:5px;
+}
+
+.intro-line{
+    width:170px;
+    height:1px;
+
+    margin:24px auto;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #aaa4b2,
+            transparent
+        );
+}
+
+.intro-loading{
+    color:#625d69;
+
+    font-size:9px;
+
+    letter-spacing:4px;
+}
+
+@keyframes introAppear{
+    from{
+        opacity:0;
+        transform:translateY(30px) scale(.96);
+    }
+
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header{
+    position:fixed;
+
+    top:0;
+    left:0;
+    right:0;
+
+    height:82px;
+
+    z-index:100;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 5%;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(3,2,7,.91),
+            rgba(3,2,7,.48)
+        );
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.055);
+
+    backdrop-filter:blur(18px);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+}
+
+.logo-symbol{
+    width:43px;
+    height:43px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border:
+        1px solid
+        rgba(235,231,240,.3);
+
+    border-radius:50%;
+
+    font-family:"Cinzel",serif;
+
+    box-shadow:
+        0 0 35px
+        rgba(100,51,133,.14);
+}
+
+.logo-text strong{
+    display:block;
+
+    font-family:"Cinzel",serif;
+
+    font-size:17px;
+
+    letter-spacing:2px;
+}
+
+.logo-text span{
+    display:block;
+
+    margin-top:2px;
+
+    color:#6e6875;
+
+    font-size:8px;
+
+    letter-spacing:3px;
+}
+
+nav{
+    display:flex;
+    align-items:center;
+
+    gap:5px;
+}
+
+nav a{
+    position:relative;
+
+    padding:10px 12px;
+
+    color:#aaa5b2;
+
+    font-size:11px;
+
+    transition:.35s ease;
+}
+
+nav a::after{
+    content:"";
+
+    position:absolute;
+
+    bottom:3px;
+    left:50%;
+
+    width:0;
+    height:1px;
+
+    background:#eee;
+
+    transform:translateX(-50%);
+
+    transition:.35s ease;
+}
+
+nav a:hover{
+    color:white;
+}
+
+nav a:hover::after,
+nav a.active::after{
+    width:55%;
+}
+
+.menu-btn{
+    display:none;
+
+    border:0;
+    background:none;
+
+    color:#eee;
+
+    font-size:25px;
+
+    cursor:pointer;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+    min-height:100vh;
+
+    position:relative;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+
+    padding:
+        150px 20px
+        110px;
+
+    overflow:hidden;
+}
+
+.hero-aura{
+    position:absolute;
+
+    width:750px;
+    height:750px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(87,40,120,.17),
+            transparent 67%
+        );
+
+    animation:
+        heroPulse 8s
+        ease-in-out
+        infinite alternate;
+}
+
+@keyframes heroPulse{
+    from{
+        transform:scale(.82);
+        opacity:.55;
+    }
+    to{
+        transform:scale(1.12);
+        opacity:1;
+    }
+}
+
+.hero-content{
+    position:relative;
+
+    z-index:2;
+
+    max-width:1000px;
+}
+
+.hero-overline{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:15px;
+
+    color:#aaa4b1;
+
+    font-size:10px;
+
+    letter-spacing:6px;
+
+    margin-bottom:27px;
+}
+
+.hero-overline::before,
+.hero-overline::after{
+    content:"";
+
+    width:55px;
+    height:1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #aaa4b1
+        );
+}
+
+.hero-overline::after{
+    transform:rotate(180deg);
+}
+
+.hero h1{
+    font-family:"Cinzel",serif;
+
+    font-weight:500;
+
+    font-size:
+        clamp(
+            65px,
+            13vw,
+            165px
+        );
+
+    line-height:.83;
+
+    letter-spacing:9px;
+
+    color:#f2eff4;
+
+    text-shadow:
+        0 12px 35px rgba(0,0,0,.75),
+        0 0 100px rgba(102,53,137,.2);
+}
+
+.hero h1 span{
+    display:block;
+
+    margin-top:24px;
+
+    font-family:"Cairo",sans-serif;
+
+    font-size:
+        clamp(
+            24px,
+            4vw,
+            45px
+        );
+
+    font-weight:400;
+
+    letter-spacing:8px;
+
+    color:#bdb7c4;
+}
+
+.hero-description{
+    max-width:700px;
+
+    margin:42px auto 0;
+
+    color:#9b95a2;
+
+    font-size:13px;
+
+    line-height:2.3;
+}
+
+.hero-buttons{
+    display:flex;
+    justify-content:center;
+
+    gap:12px;
+
+    margin-top:34px;
+}
+
+.btn{
+    padding:13px 27px;
+
+    border:
+        1px solid
+        rgba(235,231,240,.22);
+
+    background:
+        rgba(8,5,14,.52);
+
+    color:#e7e3ea;
+
+    font-size:11px;
+
+    cursor:pointer;
+
+    backdrop-filter:blur(9px);
+
+    transition:.4s var(--ease);
+}
+
+.btn:hover{
+    transform:translateY(-4px);
+
+    border-color:
+        rgba(235,231,240,.52);
+
+    box-shadow:
+        0 18px 45px
+        rgba(0,0,0,.4);
+}
+
+.btn.primary{
+    background:
+        linear-gradient(
+            135deg,
+            rgba(75,36,103,.72),
+            rgba(27,12,40,.78)
+        );
+}
+
+.scroll-indicator{
+    position:absolute;
+
+    bottom:27px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:9px;
+
+    color:#615b68;
+
+    font-size:8px;
+
+    letter-spacing:4px;
+}
+
+.scroll-line{
+    width:1px;
+    height:52px;
+
+    background:
+        linear-gradient(
+            #aaa4b2,
+            transparent
+        );
+}
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+section{
+    position:relative;
+
+    padding:120px 6%;
+}
+
+.section-heading{
+    text-align:center;
+
+    margin-bottom:68px;
+}
+
+.section-kicker{
+    color:#865aa8;
+
+    font-family:"Cinzel",serif;
+
+    font-size:10px;
+
+    letter-spacing:5px;
+}
+
+.section-heading h2{
+    margin-top:12px;
+
+    font-family:"Cinzel",serif;
+
+    font-size:
+        clamp(
+            31px,
+            5vw,
+            55px
+        );
+
+    font-weight:500;
+
+    color:#eeeaf1;
+}
+
+.section-heading p{
+    max-width:650px;
+
+    margin:17px auto 0;
+
+    color:#77717f;
+
+    font-size:11px;
+
+    line-height:2.2;
+}
+
+.ornament{
+    width:130px;
+    height:1px;
+
+    margin:23px auto 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #756d80,
+            transparent
+        );
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats{
+    max-width:1100px;
+
+    margin:-40px auto 75px;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    position:relative;
+
+    z-index:6;
+}
+
+.stat{
+    padding:33px 15px;
+
+    text-align:center;
+
+    background:
+        rgba(6,4,11,.54);
+
+    border-top:
+        1px solid
+        rgba(235,231,240,.11);
+
+    border-bottom:
+        1px solid
+        rgba(235,231,240,.11);
+
+    backdrop-filter:blur(12px);
+}
+
+.stat + .stat{
+    border-right:
+        1px solid
+        rgba(235,231,240,.09);
+}
+
+.stat-number{
+    font-family:"Cinzel",serif;
+
+    font-size:42px;
+}
+
+.stat-label{
+    margin-top:7px;
+
+    color:#706a77;
+
+    font-size:10px;
+}
+
+/* =========================================================
+   ROYAL HIERARCHY
+========================================================= */
+
+#leadership{
+    overflow:hidden;
+}
+
+.royal-stage{
+    max-width:1200px;
+
+    margin:auto;
+
+    position:relative;
+
+    padding:
+        30px 20px
+        90px;
+}
+
+.royal-axis{
+    position:absolute;
+
+    top:0;
+    bottom:25px;
+
+    left:50%;
+
+    width:1px;
+
+    background:
+        linear-gradient(
+            180deg,
+            transparent,
+            rgba(226,221,231,.20) 10%,
+            rgba(226,221,231,.07) 90%,
+            transparent
+        );
+}
+
+/* ---------- EMPEROR ---------- */
+
+.emperor-wrap{
+    position:relative;
+
+    display:flex;
+    justify-content:center;
+
+    margin-bottom:95px;
+}
+
+.emperor-wrap::after{
+    content:"";
+
+    position:absolute;
+
+    bottom:-95px;
+    left:50%;
+
+    width:1px;
+    height:95px;
+
+    background:
+        linear-gradient(
+            rgba(224,219,230,.3),
+            rgba(224,219,230,.03)
+        );
+}
+
+.emperor{
+    width:320px;
+    min-height:285px;
+
+    position:relative;
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+    justify-content:center;
+
+    background:
+        radial-gradient(
+            circle at 50% 35%,
+            rgba(111,58,145,.23),
+            transparent 61%
+        ),
+        rgba(8,5,14,.86);
+
+    border:
+        1px solid
+        rgba(235,231,240,.24);
+
+    clip-path:
+        polygon(
+            7% 0,
+            93% 0,
+            100% 9%,
+            100% 91%,
+            93% 100%,
+            7% 100%,
+            0 91%,
+            0 9%
+        );
+
+    box-shadow:
+        0 40px 90px rgba(0,0,0,.5),
+        0 0 100px rgba(89,40,123,.13);
+}
+
+.emperor::before{
+    content:"";
+
+    position:absolute;
+
+    inset:11px;
+
+    border:
+        1px solid
+        rgba(235,231,240,.08);
+
+    clip-path:inherit;
+}
+
+.emperor::after{
+    content:"";
+
+    position:absolute;
+
+    width:160px;
+    height:160px;
+
+    border:
+        1px solid
+        rgba(226,221,231,.12);
+
+    border-radius:50%;
+
+    box-shadow:
+        0 0 55px
+        rgba(102,54,136,.15);
+}
+
+.rank-symbol{
+    position:relative;
+
+    z-index:2;
+
+    width:70px;
+    height:70px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border:
+        1px solid
+        rgba(235,231,240,.34);
+
+    border-radius:50%;
+
+    background:
+        rgba(3,2,7,.65);
+
+    color:#eee;
+
+    font-family:"Cinzel",serif;
+
+    font-size:26px;
+
+    box-shadow:
+        0 0 0 7px
+        rgba(255,255,255,.014),
+        0 0 45px
+        rgba(105,55,138,.2);
+}
+
+.rank-label{
+    position:relative;
+
+    z-index:2;
+
+    margin-top:17px;
+
+    color:#8c61ac;
+
+    font-size:8px;
+
+    letter-spacing:5px;
+}
+
+.person-name{
+    position:relative;
+
+    z-index:2;
+
+    margin-top:6px;
+
+    color:#f0edf3;
+
+    font-family:"Cinzel",serif;
+
+    font-size:33px;
+
+    letter-spacing:3px;
+}
+
+.person-name-ar{
+    position:relative;
+
+    z-index:2;
+
+    color:#716b78;
+
+    font-size:10px;
+
+    margin-top:3px;
+}
+
+/* ---------- DEPUTIES ---------- */
+
+.deputies{
+    max-width:790px;
+
+    margin:
+        0 auto
+        100px;
+
+    position:relative;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:70px;
+}
+
+.deputies::before{
+    content:"";
+
+    position:absolute;
+
+    top:-45px;
+
+    left:16%;
+    right:16%;
+
+    height:1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(225,220,230,.24),
+            transparent
+        );
+}
+
+.deputy{
+    min-height:180px;
+
+    position:relative;
+
+    padding:32px;
+
+    text-align:center;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(27,16,38,.84),
+            rgba(6,4,11,.88)
+        );
+
+    border-top:
+        1px solid
+        rgba(235,231,240,.22);
+
+    border-bottom:
+        1px solid
+        rgba(235,231,240,.07);
+
+    transition:
+        transform .45s var(--ease),
+        box-shadow .45s ease,
+        border-color .45s ease;
+}
+
+.deputy::before{
+    content:"";
+
+    position:absolute;
+
+    top:-45px;
+    left:50%;
+
+    width:1px;
+    height:45px;
+
+    background:
+        linear-gradient(
+            rgba(225,220,230,.22),
+            transparent
+        );
+}
+
+.deputy:hover{
+    transform:translateY(-8px);
+
+    border-color:
+        rgba(235,231,240,.3);
+
+    box-shadow:
+        0 30px 65px
+        rgba(0,0,0,.46),
+        0 0 45px
+        rgba(88,39,118,.12);
+}
+
+.deputy .rank-symbol{
+    width:49px;
+    height:49px;
+
+    margin:auto;
+
+    font-size:17px;
+}
+
+.deputy .person-name{
+    font-size:24px;
+}
+
+/* ---------- LORD ---------- */
+
+.single-rank{
+    position:relative;
+
+    display:flex;
+    justify-content:center;
+
+    margin-bottom:90px;
+}
+
+.single-rank::before{
+    content:"";
+
+    position:absolute;
+
+    top:-90px;
+    left:50%;
+
+    width:1px;
+    height:90px;
+
+    background:
+        linear-gradient(
+            rgba(224,219,230,.24),
+            transparent
+        );
+}
+
+.lord{
+    width:390px;
+
+    padding:37px 40px;
+
+    position:relative;
+
+    text-align:center;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(43,22,57,.82),
+            rgba(7,4,12,.9)
+        );
+
+    border:
+        1px solid
+        rgba(235,231,240,.18);
+
+    box-shadow:
+        0 30px 75px
+        rgba(0,0,0,.43);
+}
+
+.lord::before{
+    content:"";
+
+    position:absolute;
+
+    top:-1px;
+    left:15%;
+    right:15%;
+
+    height:1px;
+
+    background:#c7c0cd;
+
+    opacity:.3;
+}
+
+.lord .rank-symbol{
+    margin:auto;
+
+    width:59px;
+    height:59px;
+}
+
+.lord .person-name{
+    font-size:30px;
+}
+
+/* ---------- BRANCH LORD ---------- */
+
+.branch{
+    position:relative;
+
+    text-align:center;
+
+    padding-top:20px;
+}
+
+.branch::before{
+    content:"";
+
+    position:absolute;
+
+    top:-90px;
+    left:50%;
+
+    width:1px;
+    height:90px;
+
+    background:
+        linear-gradient(
+            rgba(224,219,230,.2),
+            transparent
+        );
+}
+
+.branch-line{
+    width:170px;
+    height:1px;
+
+    margin:
+        0 auto
+        24px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(225,220,230,.24),
+            transparent
+        );
+}
+
+.branch .person-name{
+    font-size:28px;
+}
+
+/* =========================================================
+   KINGS
+========================================================= */
+
+.kings-grid{
+    max-width:1180px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(5,1fr);
+
+    gap:12px;
+}
+
+.king{
+    min-height:320px;
+
+    position:relative;
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+    justify-content:flex-end;
+
+    padding:27px 13px;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(28,17,37,.22),
+            rgba(5,3,9,.9)
+        );
+
+    border-bottom:
+        1px solid
+        rgba(235,231,240,.14);
+
+    transition:.45s var(--ease);
+}
+
+.king::before{
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:0;
+    right:0;
+
+    height:170px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(105,52,137,.22),
+            transparent 68%
+        );
+}
+
+.king:hover{
+    transform:translateY(-10px);
+
+    border-color:
+        rgba(235,231,240,.32);
+
+    box-shadow:
+        0 30px 65px
+        rgba(0,0,0,.42);
+}
+
+.king-symbol{
+    position:absolute;
+
+    top:38px;
+
+    width:96px;
+    height:96px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border:
+        1px solid
+        rgba(235,231,240,.18);
+
+    border-radius:50%;
+
+    font-size:31px;
+
+    background:
+        rgba(3,2,7,.4);
+
+    box-shadow:
+        0 0 0 8px
+        rgba(255,255,255,.01);
+}
+
+.king-rank{
+    position:relative;
+
+    color:#706977;
+
+    font-size:7px;
+
+    letter-spacing:3px;
+
+    margin-bottom:8px;
+}
+
+.king h3{
+    position:relative;
+
+    font-family:"Cinzel",serif;
+
+    color:#eeeaf0;
+
+    font-size:21px;
+}
+
+.king p{
+    position:relative;
+
+    color:#706a77;
+
+    font-size:9px;
+
+    margin-top:4px;
+}
+
+/* =========================================================
+   HONORS
+========================================================= */
+
+.honors-grid{
+    max-width:1200px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:15px;
+}
+
+.honor{
+    min-height:305px;
+
+    position:relative;
+
+    padding:31px 24px;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,12,28,.88),
+            rgba(6,4,10,.93)
+        );
+
+    border:
+        1px solid
+        rgba(235,231,240,.09);
+
+    transition:.45s var(--ease);
+}
+
+.honor::before{
+    content:"";
+
+    position:absolute;
+
+    width:190px;
+    height:190px;
+
+    top:-100px;
+    right:-100px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(111,57,143,.18),
+            transparent 70%
+        );
+}
+
+.honor::after{
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    bottom:0;
+
+    width:0;
+    height:2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #9c3047,
+            #d7b66a
+        );
+
+    transition:.45s ease;
+}
+
+.honor:hover{
+    transform:translateY(-8px);
+
+    border-color:
+        rgba(235,231,240,.24);
+
+    box-shadow:
+        0 28px 60px
+        rgba(0,0,0,.4);
+}
+
+.honor:hover::after{
+    width:100%;
+}
+
+.honor-number{
+    font-family:"Cinzel",serif;
+
+    font-size:37px;
+
+    margin-bottom:23px;
+}
+
+.honor.red .honor-number{
+    color:#a93449;
+}
+
+.honor.gold .honor-number{
+    color:#d7b66a;
+}
+
+.honor.purple .honor-number{
+    color:#8b5fac;
+}
+
+.honor-role{
+    color:#706977;
+
+    font-size:8px;
+
+    letter-spacing:3px;
+
+    margin-bottom:7px;
+}
+
+.honor h3{
+    font-family:"Cinzel",serif;
+
+    color:#eeeaf0;
+
+    font-size:24px;
+
+    margin-bottom:14px;
+}
+
+.honor p{
+    color:#89838f;
+
+    font-size:10px;
+
+    line-height:2;
+}
+
+/* =========================================================
+   RETIRED
+========================================================= */
+
+.retired-list{
+    max-width:900px;
+
+    margin:auto;
+}
+
+.retired{
+    display:grid;
+
+    grid-template-columns:
+        75px 1fr auto;
+
+    align-items:center;
+
+    gap:24px;
+
+    padding:24px 10px;
+
+    border-bottom:
+        1px solid
+        rgba(235,231,240,.07);
+
+    transition:.4s ease;
+}
+
+.retired:hover{
+    padding-right:20px;
+
+    background:
+        rgba(255,255,255,.012);
+}
+
+.retired-number{
+    color:#504a56;
+
+    font-family:"Cinzel",serif;
+
+    font-size:25px;
+}
+
+.retired h3{
+    color:#ded9e2;
+
+    font-size:17px;
+}
+
+.retired p{
+    color:#68626f;
+
+    font-size:9px;
+
+    margin-top:4px;
+}
+
+.retired-status{
+    color:#5e5865;
+
+    font-size:8px;
+
+    letter-spacing:2px;
+}
+
+/* =========================================================
+   GUILDS — 71 GUILDS
+========================================================= */
+
+.guilds-wrap{
+    max-width:1250px;
+
+    margin:auto;
+
+    position:relative;
+}
+
+/* Top kingdom seal */
+
+.guilds-seal{
+    width:100px;
+    height:100px;
+
+    margin:
+        0 auto
+        45px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    position:relative;
+
+    border:
+        1px solid
+        rgba(235,231,240,.18);
+
+    border-radius:50%;
+
+    font-family:"Cinzel",serif;
+
+    font-size:28px;
+
+    color:#dcd7e0;
+
+    background:
+        rgba(7,4,12,.7);
+
+    box-shadow:
+        0 0 0 9px rgba(255,255,255,.008),
+        0 0 60px rgba(102,52,135,.12);
+}
+
+.guilds-seal::before{
+    content:"";
+
+    position:absolute;
+
+    inset:-13px;
+
+    border:
+        1px solid
+        rgba(215,182,106,.13);
+
+    border-radius:50%;
+}
+
+/* Guild grid */
+
+.guilds{
+    display:grid;
+
+    grid-template-columns:
+        repeat(5,1fr);
+
+    gap:10px;
+}
+
+/*
+    These are intentionally not normal cards.
+    Each guild has an architectural royal style.
+*/
+
+.guild{
+    min-height:125px;
+
+    position:relative;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    padding:18px 10px;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,12,29,.77),
+            rgba(5,3,9,.88)
+        );
+
+    border:
+        1px solid
+        rgba(235,231,240,.065);
+
+    transition:
+        transform .4s var(--ease),
+        border-color .4s ease,
+        box-shadow .4s ease;
+}
+
+/* Corner ornaments */
+
+.guild::before,
+.guild::after{
+    content:"";
+
+    position:absolute;
+
+    width:18px;
+    height:18px;
+
+    border-color:
+        rgba(216,208,223,.20);
+
+    transition:.4s ease;
+}
+
+.guild::before{
+    top:7px;
+    right:7px;
+
+    border-top:1px solid;
+    border-right:1px solid;
+}
+
+.guild::after{
+    bottom:7px;
+    left:7px;
+
+    border-bottom:1px solid;
+    border-left:1px solid;
+}
+
+/* Purple aura */
+
+.guild .guild-aura{
+    position:absolute;
+
+    width:90px;
+    height:90px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(108,55,141,.16),
+            transparent 70%
+        );
+
+    opacity:.5;
+
+    transition:.4s ease;
+}
+
+.guild:hover{
+    transform:
+        translateY(-6px)
+        scale(1.015);
+
+    border-color:
+        rgba(235,231,240,.23);
+
+    box-shadow:
+        0 20px 45px
+        rgba(0,0,0,.4),
+        0 0 30px
+        rgba(91,43,119,.10);
+}
+
+.guild:hover::before,
+.guild:hover::after{
+    border-color:
+        rgba(235,231,240,.5);
+}
+
+.guild:hover .guild-aura{
+    transform:scale(1.5);
+
+    opacity:1;
+}
+
+.guild-number{
+    position:absolute;
+
+    top:8px;
+    left:11px;
+
+    color:#3e3945;
+
+    font-family:"Cinzel",serif;
+
+    font-size:8px;
+}
+
+.guild-icon{
+    position:relative;
+
+    z-index:2;
+
+    font-size:23px;
+
+    margin-bottom:8px;
+
+    filter:
+        grayscale(.15)
+        drop-shadow(
+            0 4px 10px
+            rgba(0,0,0,.6)
+        );
+}
+
+.guild h3{
+    position:relative;
+
+    z-index:2;
+
+    color:#ddd9e1;
+
+    font-size:12px;
+
+    font-weight:600;
+}
+
+.guild p{
+    position:relative;
+
+    z-index:2;
+
+    color:#59535f;
+
+    font-size:7px;
+
+    margin-top:4px;
+
+    letter-spacing:2px;
+}
+
+/* =========================================================
+   TOURNAMENT
+========================================================= */
+
+.tournament{
+    max-width:1050px;
+
+    margin:auto;
+
+    position:relative;
+
+    padding:70px 45px;
+
+    text-align:center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(70,32,96,.17),
+            transparent 62%
+        );
+
+    border-top:
+        1px solid
+        rgba(235,231,240,.12);
+
+    border-bottom:
+        1px solid
+        rgba(235,231,240,.12);
+}
+
+.tournament-symbol{
+    font-size:43px;
+
+    margin-bottom:20px;
+}
+
+.tournament h3{
+    font-family:"Cinzel",serif;
+
+    font-size:37px;
+}
+
+.tournament p{
+    max-width:650px;
+
+    margin:17px auto;
+
+    color:#77717f;
+
+    font-size:11px;
+
+    line-height:2.2;
+}
+
+.tournament-meta{
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:9px;
+
+    margin-top:25px;
+}
+
+.meta{
+    padding:8px 15px;
+
+    color:#77717f;
+
+    font-size:8px;
+
+    letter-spacing:1px;
+
+    border:
+        1px solid
+        rgba(235,231,240,.09);
+}
+
+/* =========================================================
+   ABOUT
+========================================================= */
+
+.about-box{
+    max-width:900px;
+
+    margin:auto;
+
+    text-align:center;
+}
+
+.about-box p{
+    color:#85808b;
+
+    font-size:12px;
+
+    line-height:2.6;
+}
+
+.about-quote{
+    margin-top:35px;
+
+    color:#c9c4ce;
+
+    font-family:"Cinzel",serif;
+
+    font-size:18px;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+    padding:
+        60px 20px
+        35px;
+
+    text-align:center;
+
+    background:#020106;
+
+    border-top:
+        1px solid
+        rgba(235,231,240,.07);
+}
+
+.footer-symbol{
+    width:52px;
+    height:52px;
+
+    margin:
+        0 auto
+        20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border:
+        1px solid
+        rgba(235,231,240,.2);
+
+    border-radius:50%;
+
+    font-family:"Cinzel",serif;
+}
+
+footer h3{
+    font-family:"Cinzel",serif;
+
+    font-size:15px;
+
+    letter-spacing:3px;
+}
+
+footer p{
+    color:#514c57;
+
+    font-size:8px;
+
+    margin-top:8px;
+}
+
+/* =========================================================
+   REVEAL
+========================================================= */
+
+.reveal{
+    opacity:0;
+
+    transform:
+        translateY(35px);
+
+    transition:
+        opacity 1s ease,
+        transform 1s var(--ease);
+}
+
+.reveal.visible{
+    opacity:1;
+
+    transform:none;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:1000px){
+
+    nav{
+        position:absolute;
+
+        top:82px;
+
+        left:15px;
+        right:15px;
+
+        display:none;
+
+        flex-direction:column;
+
+        padding:12px;
+
+        background:
+            rgba(4,2,8,.97);
+
+        border:
+            1px solid
+            rgba(235,231,240,.08);
+
+        backdrop-filter:blur(20px);
+    }
+
+    nav.open{
+        display:flex;
+    }
+
+    nav a{
+        width:100%;
+
+        text-align:center;
+
+        padding:12px;
+    }
+
+    .menu-btn{
+        display:block;
+    }
+
+    .kings-grid{
+        grid-template-columns:
+            repeat(3,1fr);
+    }
+
+    .honors-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .guilds{
+        grid-template-columns:
+            repeat(4,1fr);
+    }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media(max-width:720px){
+
+    .stats{
+        grid-template-columns:1fr;
+
+        margin:
+            -30px 18px
+            60px;
+    }
+
+    .stat + .stat{
+        border-right:0;
+
+        border-top:0;
+    }
+
+    .kings-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .guilds{
+        grid-template-columns:
+            repeat(3,1fr);
+    }
+}
+
+/* =========================================================
+   PHONE
+========================================================= */
+
+@media(max-width:520px){
+
+    header{
+        height:70px;
+
+        padding:
+            0 17px;
+    }
+
+    nav{
+        top:70px;
+    }
+
+    .logo-text strong{
+        font-size:14px;
+    }
+
+    .logo-text span{
+        font-size:7px;
+    }
+
+    .hero{
+        min-height:900px;
+
+        padding-top:160px;
+    }
+
+    .hero h1{
+        letter-spacing:3px;
+    }
+
+    .hero h1 span{
+        letter-spacing:3px;
+    }
+
+    .hero-overline{
+        letter-spacing:3px;
+    }
+
+    .hero-description{
+        font-size:11px;
+
+        line-height:2.1;
+    }
+
+    .hero-buttons{
+        flex-direction:column;
+
+        max-width:230px;
+
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+    section{
+        padding:
+            90px 15px;
+    }
+
+    .royal-stage{
+        padding:
+            20px 0
+            75px;
+    }
+
+    .emperor{
+        width:275px;
+
+        min-height:250px;
+    }
+
+    .emperor-wrap{
+        margin-bottom:78px;
+    }
+
+    .emperor-wrap::after{
+        bottom:-78px;
+        height:78px;
+    }
+
+    .deputies{
+        grid-template-columns:1fr;
+
+        max-width:310px;
+
+        gap:43px;
+
+        margin-bottom:78px;
+    }
+
+    .deputies::before{
+        display:none;
+    }
+
+    .deputy{
+        min-height:155px;
+    }
+
+    .deputy::before{
+        top:-43px;
+
+        height:43px;
+    }
+
+    .lord{
+        width:100%;
+
+        max-width:340px;
+
+        padding:
+            30px 20px;
+    }
+
+    .single-rank{
+        margin-bottom:73px;
+    }
+
+    .single-rank::before,
+    .branch::before{
+        height:73px;
+        top:-73px;
+    }
+
+    .kings-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+
+        gap:7px;
+    }
+
+    .king{
+        min-height:245px;
+    }
+
+    .king-symbol{
+        width:70px;
+        height:70px;
+
+        top:30px;
+
+        font-size:22px;
+    }
+
+    .king h3{
+        font-size:16px;
+    }
+
+    .honors-grid{
+        grid-template-columns:1fr;
+    }
+
+    .honor{
+        min-height:245px;
+    }
+
+    .guilds{
+        grid-template-columns:
+            repeat(2,1fr);
+
+        gap:7px;
+    }
+
+    .guild{
+        min-height:115px;
+    }
+
+    .guild h3{
+        font-size:11px;
+    }
+
+    .guild-icon{
+        font-size:21px;
+    }
+
+    .retired{
+        grid-template-columns:
+            45px 1fr;
+
+        gap:12px;
+    }
+
+    .retired-status{
+        display:none;
+    }
+
+    .tournament{
+        padding:
+            50px 20px;
+    }
+
+    .tournament h3{
+        font-size:28px;
+    }
+
+    .about-box p{
+        font-size:11px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     BACKGROUND
+===================================================== -->
+
+<div class="page-bg"></div>
+<div class="ambient"></div>
+
+<canvas id="particleCanvas"></canvas>
+<canvas id="snowCanvas"></canvas>
+
+
+<!-- =====================================================
+     INTRO
+===================================================== -->
+
+<div class="intro" id="intro">
+
+    <div class="intro-content">
+
+        <div class="intro-emblem">
+            N
+        </div>
+
+        <div class="intro-title">
+            NORTH
+        </div>
+
+        <div class="intro-ar">
+            مملكة نورث
+        </div>
+
+        <div class="intro-line"></div>
+
+        <div class="intro-loading">
+            THE KINGDOM AWAKENS
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header>
+
+    <a href="#home" class="logo">
+
+        <div class="logo-symbol">
+            N
+        </div>
+
+        <div class="logo-text">
+            <strong>NORTH</strong>
+            <span>مملكة نورث</span>
+        </div>
+
+    </a>
+
+
+    <button
+        class="menu-btn"
+        id="menuBtn"
+        aria-label="فتح القائمة"
+    >
+        ☰
+    </button>
+
+
+    <nav id="nav">
+
+        <a href="#home">الرئيسية</a>
+
+        <a href="#leadership">
+            السلطة العليا
+        </a>
+
+        <a href="#kings">
+            الملوك
+        </a>
+
+        <a href="#honors">
+            التكريمات
+        </a>
+
+        <a href="#guilds">
+            النقابات
+        </a>
+
+        <a href="#tournament">
+            البطولات
+        </a>
+
+        <a href="#about">
+            المملكة
+        </a>
+
+    </nav>
+
+</header>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<main>
+
+<section
+    class="hero"
+    id="home"
+>
+
+    <div class="hero-aura"></div>
+
+
+    <div class="hero-content reveal">
+
+        <div class="hero-overline">
+            THE ROYAL KINGDOM
+        </div>
+
+
+        <h1>
+
+NORTH
+
+            <span>
+                مملكة نورث
+            </span>
+
+        </h1>
+
+
+        <p class="hero-description">
+
+            حيث لا تُمنح المكانة بالاسم،
+            بل بما يتركه صاحبها خلفه.
+            مملكة جمعت النقابات،
+            القادة، صانعي، التاريخ
+            تحت راية واحدة.
+
+        </p>
+
+
+        <div class="hero-buttons">
+
+            <a
+                href="#leadership"
+                class="btn primary"
+            >
+                اكتشف السلطة العليا
+            </a>
+
+            <a
+                href="#guilds"
+                class="btn"
+            >
+                استكشف النقابات
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="scroll-indicator">
+
+        SCROLL
+
+        <div class="scroll-line"></div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     STATS
+===================================================== -->
+
+<div class="stats reveal">
+
+    <div class="stat">
+
+        <div class="stat-number">
+            7
+        </div>
+
+        <div class="stat-label">
+            نقابات داخل المملكة
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="stat-number">
+            200+
+        </div>
+
+        <div class="stat-label">
+            مشرف وقائد
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="stat-number">
+            39K
+        </div>
+
+        <div class="stat-label">
+            أعلى تفاعل مسجل
+        </div>
+
+    </div>
+
+</div>
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#05030a">
+
+<title>مملكة نورث | NORTH</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Cinzel:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ... خلي كل الستايل تبعك زي ما هو ... */
+
+/* =========================================================
+   اضافة جديدة: الصور والوصف للرتب العليا
+========================================================= */
+.rank-avatar{
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--gold);
+    box-shadow: 0 0 18px rgba(215, 182, 106, 0.35);
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 2;
+}
+.emperor .rank-avatar{
+    width: 140px;
+    height: 140px;
+    border-width: 4px;
+}
+.rank-desc{
+    font-size: 11px;
+    color: var(--silver2);
+    margin-top: 10px;
+    line-height: 1.8;
+    max-width: 240px;
+}
+.deputy .rank-avatar, .lord .rank-avatar, .branch .rank-avatar{
+    width: 100px;
+    height: 100px;
+}
+
+/* ملخص المملكة */
+.story-section{
+    background: linear-gradient(180deg, rgba(7,3,13,.9), var(--black));
+    padding: 100px 6%;
+    text-align: center;
+    border-top: 1px solid var(--border);
+}
+.story-section p{
+    max-width: 900px;
+    margin: 20px auto 0;
+    color: var(--silver2);
+    font-size: 13px;
+    line-height: 2.4;
+}
+.story-section b{ color: var(--gold); }
+</style>
+</head>
+
+<body>
+
+<!-- ... كل الكود اللي فوق خليه زي ما هو ... -->
+
+<!-- =====================================================
+     ROYAL HIERARCHY
+===================================================== -->
+
+<section id="leadership">
+
+    <div class="section-heading reveal">
+
+        <div class="section-kicker">
+            ROYAL AUTHORITY
+        </div>
+
+        <h2>
+            السلطة العليا
+        </h2>
+
+        <p>
+           الرتب العليا ، المرجع الاول والأخير في شؤون المملكة وقراراتها المصيرية
+        </p>
+
+        <div class="ornament"></div>
+
+    </div>
+
+    <div class="royal-stage reveal">
+
+        <div class="royal-axis"></div>
+
+        <!-- EMPEROR -->
+
+        <div class="emperor-wrap">
+
+            <div class="emperor">
+
+<img src="Krullo.jpg" class="rank-avatar">
+
+            
+
+                <div class="rank-label">
+                    EMPEROR
+                </div>
+
+                <div class="person-name">
+                    كرولو
+                </div>
+
+                <div class="person-name-ar">
+                    إمبراطور المملكة
+                </div>
+
+                <div class="rank-desc">
+                    هو المسؤول عن فتح النقابات وفتح الفروع وكل مايخص المملكة
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- DEPUTIES -->
+
+        <div class="deputies">
+
+            <div class="deputy">
+
+<img src="Ozuki.jpg" class="rank-avatar">
+               
+
+                <div class="rank-label">
+                    VICE EMPEROR
+                </div>
+
+                <div class="person-name">
+                    اوزوكي
+                </div>
+
+                <div class="person-name-ar">
+                    نائب الإمبراطور
+                </div>
+
+                <div class="rank-desc">
+                    المسؤول عن المملكه في غياب كرولو
+                </div>
+
+            </div>
+
+            <div class="deputy">
+
+<img src="Irene.jpg" class="rank-avatar">
+
+
+                <div class="rank-label">
+                    VICE EMPEROR
+                </div>
+
+                <div class="person-name">
+                    ايرين
+                </div>
+
+                <div class="person-name-ar">
+                    نائب الإمبراطور
+                </div>
+
+                <div class="rank-desc">
+                    المسؤول عن ادارة المملكه 
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- LORD -->
+
+        <div class="single-rank">
+
+            <div class="lord">
+
+<img src="Kanki.jpg" class="rank-avatar">
+
+
+
+                <div class="rank-label">
+                    LORD
+                </div>
+
+                <div class="person-name">
+                    كانكي 
+                </div>
+
+                <div class="person-name-ar">
+                    لورد المملكة
+                </div>
+
+                <div class="rank-desc">
+                    هو المسؤول عن ادارة النقابات
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- LORD OF BRANCHES -->
+
+
+        <div class="single-rank">
+
+            <div class="lord">
+
+<img src="Yami.jpg" class="rank-avatar">
+
+
+
+                <div class="rank-label">
+                    LORD
+                </div>
+
+                <div class="person-name">
+                    يامي 
+                </div>
+
+                <div class="person-name-ar">
+                    لورد الفروع
+                </div>
+
+                <div class="rank-desc">
+                    هو المسؤول عن فتح واقفال الفروع.
+                </div>
+
+            </div>
+
+        </div>
+
+</section>
+   
+
+<!-- =====================================================
+     KINGDOM HISTORY
+===================================================== -->
+
+<section id="history" class="story-section reveal">
+    <div class="section-heading">
+        <div class="section-kicker">LEGACY</div>
+        <h2>مسيرة مملكة نورث</h2>
+        <div class="ornament"></div>
+    </div>
+
+    <p>
+        مملكة نورث تأسست بتاريخ <b>2026/9/4</b> على يد المؤس <b>كرولو</b>، الذي لعب دورًا بارزًا في تأسيس المملكة وتطورها، 
+        يعد أن اعتزل شادو في مملكة اريفانيا وانهاء مسيرتها، ومن ثم ترقّى <b>كرولو</b> إلى رتبة مؤسس وأكمل مسيرة نورث فهل سنجد نورث من اقوى الممالك بحلول عيد تاسيسها.
+        <br><br>
+</section>
+
+<!-- =====================================================
+     KINGS
+===================================================== -->
+
+<section id="kings">
+
+    <div class="section-heading reveal">
+
+        <div class="section-kicker">
+            THE FIVE CROWNS
+        </div>
+
+        <h2>
+            ملوك المملكة
+        </h2>
+
+        <p>
+            One day the page will be filled with the kings of North
+        </p>
+
+        <div class="ornament"></div>
+
+    </div>
+
+
+    <div class="kings-grid reveal">
+
+
+        <div class="king">
+
+            <div class="king-symbol">
+                
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     HONORS
+===================================================== -->
+
+<section id="honors">
+
+    <div class="section-heading reveal">
+
+        <div class="section-kicker">
+            HALL OF HONOR
+        </div>
+
+        <h2>
+            تكريمات المملكة
+        </h2>
+
+        <p>
+            أسماء لم تكن مجرد أعضاء،
+            بل تركت أثرًا واضحًا في تاريخ المملكة.
+        </p>
+
+        <div class="ornament"></div>
+
+    </div>
+
+
+    <div class="honors-grid reveal">
+
+
+        <article class="honor red">
+
+            <div class="honor-number">
+                I
+            </div>
+
+            <div class="honor-role">
+                THE GREAT PUBLISHER
+            </div>
+
+            <h3>
+                كانيكي
+            </h3>
+
+            <p>
+                صاحب حضور قوي في النشر، وكان أفضل نائب لورد في نهاية حقبة . وساعد العديد من النقابات.
+            </p>
+
+        </article>
+
+
+        <article class="honor gold">
+
+            <div class="honor-number">
+                II
+            </div>
+
+            <div class="honor-role">
+                THE STABILIZER
+            </div>
+
+            <h3>
+                اوزوكي
+            </h3>
+
+            <p>
+                امير سابق ساهم في فتح النقابات وكان من ابرز الامراء اللذين مرو على المملكه.
+            </p>
+
+        </article>
+
+
+        <article class="honor purple">
+
+            <div class="honor-number">
+                III
+            </div>
+
+            <div class="honor-role">
+                THE LOYAL DEPUTY
+            </div>
+
+            <h3>
+                يامي
+            </h3>
+
+            <p>
+                يامي امير سابق ساهم في تحسين وتاسيس عدد من النقابات.
+            </p>
+
+        </article>
+
+            </div>
+
+</section>
+
+
+<!-- =====================================================
+     RETIRED
+===================================================== -->
+
+<section id="retired">
+
+    <div class="section-heading reveal">
+
+        <div class="section-kicker">
+            ARCHIVES OF THE PAST
+        </div>
+
+        <h2>
+            قادة اعتزلوا
+        </h2>
+
+        <p>
+            أسماء صنعت جزءًا من تاريخ المملكة
+            ثم غادرت مواقعها.
+        </p>
+
+        <div class="ornament"></div>
+
+    </div>
+
+
+    
+        <div class="retired-list reveal">
+
+    <div class="retired">
+        <div class="retired-number">01</div>
+        <div>
+            <h3>شادو</h3>
+            <p>مؤسس اريڤانيا</p>
+        </div>
+        <div class="retired-status">RETIRED</div>
+    </div> <!-- قفلنا يوتا -->
+
+    <div class="retired">
+        <div class="retired-number">02</div>
+        <div>
+            <h3>ثورفين</h3>
+            <p>لورد الفروع</p>
+        </div>
+        <div class="retired-status">RETIRED</div>
+    </div> <!-- قفلنا هيلد -->
+
+    <div class="retired">
+        <div class="retired-number">04</div>
+        <div>
+            <h3>كانيكي</h3>
+            <p>لورد اريڤانيا</p>
+        </div>
+        <div class="retired-status">RETIRED</div>
+    </div> <!-- قفلنا لولوش -->
+
+</div> <!-- قفلنا القائمة كلها -->
+
+
+<!-- =====================================================
+     GUILDS — 71
+===================================================== -->
+
+<section id="guilds">
+
+    <div class="section-heading reveal">
+
+        <div class="section-kicker">
+            THE 71 GUILDS
+        </div>
+
+        <h2>
+            نقابات نورث
+        </h2>
+
+        <p>
+            <strong style="color:#bcb5c3;">
+                7 نقابات 
+            </strong>
+            تحت راية المملكة.
+        </p>
+
+        <div class="ornament"></div>
+
+    </div>
+
+
+    <div class="guilds-wrap reveal">
+
+        <div class="guilds-seal">
+            N
+        </div>
+
+
+        <div class="guilds">
+<!-- 01 -->
+
+<div class="guild">
+
+    <div class="guild-aura"></div>
+
+    <span class="guild-number">
+        01
+    </span>
+
+    <div class="guild-icon">
+        🌊
+    </div>
+
+    <h3>
+        اريسا
+    </h3>
+
+    <p>
+        ARISSA
+    </p>
+
+</div>
+
+
+<!-- 02 -->
+
+<div class="guild">
+
+    <div class="guild-aura"></div>
+
+    <span class="guild-number">
+        02
+    </span>
+
+    <div class="guild-icon">
+        ⚖️
+    </div>
+
+    <h3>
+        لوس
+    </h3>
+
+    <p>
+        LOUS
+    </p>
+
+</div>
+
+
+<!-- 03 -->
+
+<div class="guild">
+
+    <div class="guild-aura"></div>
+
+    <span class="guild-number">
+        03
+    </span>
+
+    <div class="guild-icon">
+        🩸
+    </div>
+
+    <h3>
+        سول
+    </h3>
+
+    <p>
+        SOUL
+    </p>
+
+</div>
+
+
+<!-- 04 -->
+
+<div class="guild">
+
+    <div class="guild-aura"></div>
+
+    <span class="guild-number">
+        04
+    </span>
+
+    <div class="guild-icon">
+        🪐
+    </div>
+
+    <h3>
+        فوتريكس
+    </h3>
+
+    <p>
+        FOTRIX
+    </p>
+
+</div>
+
+
+<!-- 05 -->
+
+<div class="guild">
+
+    <div class="guild-aura"></div>
+
+    <span class="guild-number">
+        05
+    </span>
+
+    <div class="guild-icon">
+        ⚡
+    </div>
+
+    <h3>
+        رايجين
+    </h3>
+
+    <p>
+        RAIJIN
+    </p>
+
+</div>
+
+
+<!-- 06 -->
+
+<div class="guild">
+
+    <div class="guild-aura"></div>
+
+    <span class="guild-number">
+        06
+    </span>
+
+    <div class="guild-icon">
+        ⛈️
+    </div>
+
+    <h3>
+        ايريس
+    </h3>
+
+    <p>
+        ARISE
+    </p>
+
+</div>
+
+
+<!-- 07 -->
+
+<div class="guild">
+
+    <div class="guild-aura"></div>
+
+    <span class="guild-number">
+        07
+    </span>
+
+    <div class="guild-icon">
+        💧
+    </div>
+
+    <h3>
+        سيلا
+    </h3>
+
+    <p>
+        SILA
+    </p>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     TOURNAMENT
+===================================================== -->
+
+<section id="tournament">
+
+    <div class="section-heading reveal">
+
+        <div class="section-kicker">
+            ROYAL ARENA
+        </div>
+
+        <h2>
+            بطولات المملكة
+        </h2>
+
+        <div class="ornament"></div>
+
+    </div>
+
+
+    <div class="tournament reveal">
+
+        <div class="tournament-symbol">
+            ⚔
+        </div>
+
+        <h3>
+            البطولة الملكية
+        </h3>
+
+        <p>
+            ساحة تجمع النقابات والأعضاء
+            في منافسات تختبر القوة،
+            التخطيط، التعاون والقدرة على
+            صناعة المجد داخل المملكة.
+        </p>
+
+
+        <div class="tournament-meta">
+
+            <div class="meta">
+                ROYAL TOURNAMENT
+            </div>
+
+            <div class="meta">
+                GUILD VS GUILD
+            </div>
+
+            <div class="meta">
+                HONOR & GLORY
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     ABOUT
+===================================================== -->
+
+<section id="about">
+
+    <div class="section-heading reveal">
+
+        <div class="section-kicker">
+            THE KINGDOM
+        </div>
+
+        <h2>
+            عن نورث
+        </h2>
+
+        <div class="ornament"></div>
+
+    </div>
+
+
+    <div class="about-box reveal">
+
+        <p>
+            نورث ليست مجرد اسم أو مجموعة من النقابات.
+            إنها عالم تشكل عبر القادة والملوك والأعضاء
+            الذين تركوا أثرًا في تاريخها.
+            هنا تُحفظ الإنجازات، وتُذكر الأسماء،
+            ويُمنح كل شخص المكانة التي صنعها بأفعاله.
+        </p>
+
+
+        <div class="about-quote">
+            "التاريخ لا يحفظ من حكم فقط، بل يحفظ من ترك أثرًا."
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <div class="footer-symbol">
+        N
+    </div>
+
+    <h3>
+        NORTH
+    </h3>
+
+    <p>
+        منشئ الموقع:هيكارو
+    </p>
+
+    <p style="margin-top:25px;">
+        © 2026 NORTH KINGDOM
+    </p>
+
+</footer>
+
+
+<script>
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+window.addEventListener(
+    "load",
+    () => {
+
+        setTimeout(
+            () => {
+
+                document
+                    .getElementById("intro")
+                    .classList
+                    .add("hide");
+
+            },
+            1600
+        );
+
+    }
+);
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+const menuBtn =
+    document.getElementById("menuBtn");
+
+const nav =
+    document.getElementById("nav");
+
+
+menuBtn.addEventListener(
+    "click",
+    () => {
+
+        nav.classList.toggle("open");
+
+    }
+);
+
+
+document
+    .querySelectorAll("nav a")
+    .forEach(link => {
+
+        link.addEventListener(
+            "click",
+            () => {
+
+                nav.classList.remove("open");
+
+            }
+        );
+
+    });
+
+
+/* =========================================================
+   SCROLL REVEAL
+========================================================= */
+
+const revealObserver =
+    new IntersectionObserver(
+        entries => {
+
+            entries.forEach(
+                entry => {
+
+                    if(
+                        entry.isIntersecting
+                    ){
+
+                        entry.target
+                            .classList
+                            .add("visible");
+
+                        revealObserver
+                            .unobserve(
+                                entry.target
+                            );
+
+                    }
+
+                }
+            );
+
+        },
+        {
+            threshold:.1
+        }
+    );
+
+
+document
+    .querySelectorAll(".reveal")
+    .forEach(
+        element => {
+
+            revealObserver.observe(
+                element
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   SNOW ENGINE
+========================================================= */
+
+const snowCanvas =
+    document.getElementById(
+        "snowCanvas"
+    );
+
+const snowCtx =
+    snowCanvas.getContext("2d");
+
+let snowflakes = [];
+
+
+function resizeSnow(){
+
+    const dpr =
+        Math.min(
+            window.devicePixelRatio || 1,
+            2
+        );
+
+    snowCanvas.width =
+        window.innerWidth * dpr;
+
+    snowCanvas.height =
+        window.innerHeight * dpr;
+
+    snowCanvas.style.width =
+        window.innerWidth + "px";
+
+    snowCanvas.style.height =
+        window.innerHeight + "px";
+
+    snowCtx.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0
+    );
+
+}
+
+
+resizeSnow();
+
+
+window.addEventListener(
+    "resize",
+    resizeSnow
+);
+
+
+function createSnow(){
+
+    snowflakes = [];
+
+    const amount =
+        Math.min(
+            180,
+            Math.floor(
+                window.innerWidth / 6
+            )
+        );
+
+
+    for(
+        let i=0;
+        i<amount;
+        i++
+    ){
+
+        snowflakes.push({
+
+            x:
+                Math.random() *
+                window.innerWidth,
+
+            y:
+                Math.random() *
+                window.innerHeight,
+
+            radius:
+                Math.random() *
+                2.7 +
+                .5,
+
+            speed:
+                Math.random() *
+                1.3 +
+                .25,
+
+            wind:
+                Math.random() *
+                .65 -
+                .325,
+
+            opacity:
+                Math.random() *
+                .65 +
+                .12,
+
+            sway:
+                Math.random() *
+                Math.PI *
+                2,
+
+            swaySpeed:
+                Math.random() *
+                .015 +
+                .005,
+
+            rotation:
+                Math.random() *
+                Math.PI *
+                2,
+
+            rotationSpeed:
+                Math.random() *
+                .018 -
+                .009
+
+        });
+
+    }
+
+}
+
+
+createSnow();
+
+
+function drawSnow(){
+
+    snowCtx.clearRect(
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight
+    );
+
+
+    snowflakes.forEach(
+        flake => {
+
+            flake.sway +=
+                flake.swaySpeed;
+
+            flake.y +=
+                flake.speed;
+
+            flake.x +=
+                flake.wind +
+                Math.sin(
+                    flake.sway
+                ) * .25;
+
+            flake.rotation +=
+                flake.rotationSpeed;
+
+
+            if(
+                flake.y >
+                window.innerHeight + 15
+            ){
+
+                flake.y = -15;
+
+                flake.x =
+                    Math.random() *
+                    window.innerWidth;
+
+            }
+
+
+            if(
+                flake.x >
+                window.innerWidth + 15
+            ){
+
+                flake.x = -15;
+
+            }
+
+
+            if(
+                flake.x < -15
+            ){
+
+                flake.x =
+                    window.innerWidth + 15;
+
+            }
+
+
+            snowCtx.save();
+
+
+            snowCtx.translate(
+                flake.x,
+                flake.y
+            );
+
+
+            snowCtx.rotate(
+                flake.rotation
+            );
+
+
+            snowCtx.globalAlpha =
+                flake.opacity;
+
+
+            const r =
+                flake.radius * 2.2;
+
+
+            snowCtx.beginPath();
+
+
+            for(
+                let i=0;
+                i<6;
+                i++
+            ){
+
+                const angle =
+                    i *
+                    Math.PI /
+                    3;
+
+
+                snowCtx.moveTo(
+                    0,
+                    0
+                );
+
+
+                snowCtx.lineTo(
+                    Math.cos(angle) * r,
+                    Math.sin(angle) * r
+                );
+
+            }
+
+
+            snowCtx.strokeStyle =
+                "#ffffff";
+
+
+            snowCtx.lineWidth =
+                Math.max(
+                    .35,
+                    flake.radius / 2
+                );
+
+
+            snowCtx.stroke();
+
+
+            snowCtx.restore();
+
+        }
+    );
+
+
+    requestAnimationFrame(
+        drawSnow
+    );
+
+}
+
+
+drawSnow();
+
+
+/* =========================================================
+   PARTICLE ENGINE
+========================================================= */
+
+const particleCanvas =
+    document.getElementById(
+        "particleCanvas"
+    );
+
+const particleCtx =
+    particleCanvas.getContext(
+        "2d"
+    );
+
+let particles = [];
+
+
+function resizeParticles(){
+
+    const dpr =
+        Math.min(
+            window.devicePixelRatio || 1,
+            2
+        );
+
+    particleCanvas.width =
+        window.innerWidth * dpr;
+
+    particleCanvas.height =
+        window.innerHeight * dpr;
+
+    particleCanvas.style.width =
+        window.innerWidth + "px";
+
+    particleCanvas.style.height =
+        window.innerHeight + "px";
+
+    particleCtx.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0
+    );
+
+}
+
+
+resizeParticles();
+
+
+window.addEventListener(
+    "resize",
+    resizeParticles
+);
+
+
+function createParticles(){
+
+    particles = [];
+
+    const amount =
+        Math.min(
+            75,
+            Math.floor(
+                window.innerWidth / 15
+            )
+        );
+
+
+    for(
+        let i=0;
+        i<amount;
+        i++
+    ){
+
+        particles.push({
+
+            x:
+                Math.random() *
+                window.innerWidth,
+
+            y:
+                Math.random() *
+                window.innerHeight,
+
+            size:
+                Math.random() *
+                1.7 +
+                .3,
+
+            alpha:
+                Math.random() *
+                .42 +
+                .08,
+
+            speed:
+                Math.random() *
+                .28 +
+                .04,
+
+            drift:
+                Math.random() *
+                .35 -
+                .175
+
+        });
+
+    }
+
+}
+
+
+createParticles();
+
+
+function drawParticles(){
+
+    particleCtx.clearRect(
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight
+    );
+
+
+    particles.forEach(
+        p => {
+
+            p.y -= p.speed;
+
+            p.x += p.drift;
+
+
+            if(
+                p.y < -5
+            ){
+
+                p.y =
+                    window.innerHeight + 5;
+
+            }
+
+
+            if(
+                p.x < -5 ||
+                p.x >
+                window.innerWidth + 5
+            ){
+
+                p.x =
+                    Math.random() *
+                    window.innerWidth;
+
+            }
+
+
+            particleCtx.beginPath();
+
+
+            particleCtx.arc(
+                p.x,
+                p.y,
+                p.size,
+                0,
+                Math.PI * 2
+            );
+
+
+            particleCtx.fillStyle =
+                `rgba(
+                    215,
+                    201,
+                    226,
+                    ${p.alpha}
+                )`;
+
+
+            particleCtx.fill();
+
+        }
+    );
+
+
+    requestAnimationFrame(
+        drawParticles
+    );
+
+}
+
+
+drawParticles();
+
+
+/* =========================================================
+   PARALLAX BACKGROUND
+========================================================= */
+
+let mouseX = 0;
+let mouseY = 0;
+
+
+window.addEventListener(
+    "mousemove",
+    event => {
+
+        mouseX =
+            event.clientX /
+            window.innerWidth -
+            .5;
+
+        mouseY =
+            event.clientY /
+            window.innerHeight -
+            .5;
+
+    }
+);
+
+
+function parallax(){
+
+    const bg =
+        document.querySelector(
+            ".page-bg"
+        );
+
+
+    bg.style.transform =
+        `
+        scale(1.055)
+        translate(
+            ${mouseX * -9}px,
+            ${mouseY * -6}px
+        )
+        `;
+
+
+    requestAnimationFrame(
+        parallax
+    );
+
+}
+
+
+parallax();
+
+
+/* =========================================================
+   ACTIVE NAVIGATION
+========================================================= */
+
+const sections =
+    document.querySelectorAll(
+        "section[id]"
+    );
+
+const navLinks =
+    document.querySelectorAll(
+        "nav a"
+    );
+
+
+const sectionObserver =
+    new IntersectionObserver(
+        entries => {
+
+            entries.forEach(
+                entry => {
+
+                    if(
+                        entry.isIntersecting
+                    ){
+
+                        navLinks
+                            .forEach(
+                                link => {
+
+                                    link.classList
+                                        .remove(
+                                            "active"
+                                        );
+
+
+                                    if(
+                                        link.getAttribute(
+                                            "href"
+                                        ) ===
+                                        "#" +
+                                        entry
+                                            .target
+                                            .id
+                                    ){
+
+                                        link.classList
+                                            .add(
+                                                "active"
+                                            );
+
+                                    }
+
+                                }
+                            );
+
+                    }
+
+                }
+            );
+
+        },
+        {
+            threshold:.3
+        }
+    );
+
+
+sections.forEach(
+    section => {
+
+        sectionObserver.observe(
+            section
+        );
+
+    }
+);
+
+
+/* =========================================================
+   MOUSE LIGHT
+========================================================= */
+
+const mouseGlow =
+    document.createElement(
+        "div"
+    );
+
+
+mouseGlow.style.position =
+    "fixed";
+
+mouseGlow.style.width =
+    "260px";
+
+mouseGlow.style.height =
+    "260px";
+
+mouseGlow.style.borderRadius =
+    "50%";
+
+mouseGlow.style.pointerEvents =
+    "none";
+
+mouseGlow.style.zIndex =
+    "3";
+
+mouseGlow.style.background =
+    `
+    radial-gradient(
+        circle,
+        rgba(126,73,160,.065),
+        transparent 70%
+    )
+    `;
+
+mouseGlow.style.transform =
+    "translate(-50%,-50%)";
+
+mouseGlow.style.transition =
+    "left .15s ease, top .15s ease";
+
+
+document.body.appendChild(
+    mouseGlow
+);
+
+
+window.addEventListener(
+    "mousemove",
+    event => {
+
+        mouseGlow.style.left =
+            event.clientX + "px";
+
+        mouseGlow.style.top =
+            event.clientY + "px";
+
+    }
+);
+
+
+/* =========================================================
+   GUILD COUNT VERIFICATION
+========================================================= */
+
+const guildCount =
+    document.querySelectorAll(
+        ".guild"
+    ).length;
+
+
+console.log(
+    "NORTH GUILDS:",
+    guildCount
+);
+
+</script>
+
+</body>
+</html>
